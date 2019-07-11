@@ -4,6 +4,7 @@
 
 (setq doom-font (font-spec :family "Source Code Pro" :size 12))
 (global-auto-revert-mode t)
+(setq avy-all-windows t)
 
 (map! :ne "SPC / r" #'deadgrep)
 
@@ -54,3 +55,5 @@
      "b" #'hb9/python-toggle-breakpoint
      "t" #'hb9/python-pytest-one
      )))
+
+(require 'lsp-python-ms)
