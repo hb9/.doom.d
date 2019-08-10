@@ -6,11 +6,11 @@
 (global-auto-revert-mode t)
 (setq avy-all-windows t)
 
+;; custom bindings
 (map! :ne "SPC / r" #'deadgrep)
 
-;; custom bindings
-
-
+;; python
+;;
 ;; taken from spacemacs (lang/python/funcs)
 (defun hb9/python-toggle-breakpoint ()
   "Add a break point, highlight it."
@@ -26,34 +26,14 @@
         (python-indent-line)))))
 
 
-;; taken from python-pytest
-(defun hb9/python-pytest-one (file func arg)
-  "Run pytest on FILE with FUNC (or class) in a new term buffer."
-  (interactive
-   (list
-    (buffer-file-name)
-    (python-pytest--current-defun)
-    (python-pytest-arguments)))
-  (let (
-        (cmd (concat
-              "source .venv/bin/activate && pytest "
-              file "::" (replace-regexp-in-string "\\." "::" func)))
-        )
-    (hb9/exec-in-new-term cmd)))
-
-
-(defun hb9/exec-in-new-term (cmd)
-  (+term/open t)
-  (comint-send-string (buffer-name) (concat cmd "\n")))
-
-
 (map!
  (:after python
    (:map python-mode-map
      :localleader
      :prefix "d"
      "b" #'hb9/python-toggle-breakpoint
-     "t" #'hb9/python-pytest-one
+     "t" #'python-pytest-popup
      )))
+
 
 (require 'lsp-python-ms)
