@@ -36,4 +36,61 @@
      )))
 
 
+;; org
+(setq org-directory "~/projects/org"
+      org-agenda-files '("~/projects/org"))
+(setq org-capture-templates
+      '(("b"               ; key
+         "Bookmark"        ; name
+         entry             ; type
+         (file+headline "~/projects/org/bookmarks.org" "Bookmarks")  ; target
+         "* [[%^{LINK}][%^{TITLE}]] :bookmark:%^G \n:PROPERTIES:\n:Created: %U\n:END:\n%i\n"  ; template
+         :prepend t        ; properties
+         :empty-lines 1    ; properties
+         :created t        ; properties
+         :immediate-finish t
+         :kill-buffer t)   ; properties
+
+        ;; For taking notes on random things
+        ("n"               ; key
+         "Note"            ; name
+         entry             ; type
+         (file+headline "~/projects/org/notes.org" "Notes")  ; target
+         "* %^{TITLE} :note:%^G \n:PROPERTIES:\n:Created: %U\n:END:\n%i\n%?"  ; template
+         :prepend t        ; properties
+         :empty-lines 1    ; properties
+         :created t        ; properties
+         :kill-buffer t)   ; properties
+
+        ;; For taking notes on files
+        ("f"               ; key
+         "File-Note"            ; name
+         entry             ; type
+         (file+headline "~/projects/org/notes.org" "File-Notes")  ; target
+         "* %^{TITLE} :file-note:%^G \n:PROPERTIES:\n:Created: %U\n:Linked: %a\n:END:\n%i\n%A\n%?"  ; template
+         :prepend t        ; properties
+         :empty-lines 1    ; properties
+         :created t        ; properties
+         :kill-buffer t)   ; properties
+
+        ;; To capture tons of errands
+        ("e"               ; key
+         "Errands"         ; name
+         entry             ; type
+         (file+headline "~/projects/org/notes.org" "Errands")  ; target
+         "* TODO %^{Todo} :errands:\n:PROPERTIES:\n:Created: %U\n:END:\n%i\n%?"  ; template
+         :prepend t        ; properties
+         :empty-lines 1    ; properties
+         :created t        ; properties
+         :kill-buffer t)   ; properties
+        ))
+
+(defun hb9/search-notes ()
+  "Search org files."
+  (interactive)
+  (+ivy/project-search nil nil "~/projects/org"))
+
+(map! :ne "SPC / n" #'hb9/search-notes)
+
+
 (require 'lsp-python-ms)
