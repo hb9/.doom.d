@@ -40,6 +40,7 @@
 
 
 ;; org
+(require 'org)
 (setq org-directory "~/projects/org"
       org-agenda-files '("~/projects/org"))
 (setq org-capture-templates
