@@ -92,5 +92,3 @@
 
 (map! :ne "SPC / n" #'hb9/search-notes)
 
-
-(require 'lsp-python-ms)
