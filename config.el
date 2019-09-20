@@ -6,8 +6,11 @@
 (global-auto-revert-mode t)
 (setq avy-all-windows t)
 
-;; custom bindings
+;; deadgrep
 (map! :ne "SPC / r" #'deadgrep)
+
+(after! deadgrep
+  (set-popup-rule! "^\\*deadgrep" :size 0.5 :select t))
 
 ;; python
 ;;
