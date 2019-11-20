@@ -7,7 +7,7 @@
 (setq avy-all-windows t)
 
 ;; deadgrep
-(map! :ne "SPC / r" #'deadgrep)
+(map! :ne "SPC s r" #'deadgrep)
 
 (after! deadgrep
   (set-popup-rule! "^\\*deadgrep" :size 0.5 :select t))
@@ -94,5 +94,4 @@
   (interactive)
   (+ivy/project-search nil nil "~/projects/org"))
 
-(map! :ne "SPC / n" #'hb9/search-notes)
-
+(map! :ne "SPC s n" #'hb9/search-notes)
