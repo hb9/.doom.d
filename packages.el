@@ -8,4 +8,3 @@
 ;;
 ;;
 (package! deadgrep)
-(package! lsp-python-ms)

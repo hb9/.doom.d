@@ -7,7 +7,7 @@
 (setq avy-all-windows t)
 
 ;; deadgrep
-(map! :ne "SPC s r" #'deadgrep)
+(map! :ne "SPC s g" #'deadgrep)
 
 (after! deadgrep
   (set-popup-rule! "^\\*deadgrep" :size 0.5 :select t))
