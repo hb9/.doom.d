@@ -12,6 +12,11 @@
 (after! deadgrep
   (set-popup-rule! "^\\*deadgrep" :size 0.5 :select t))
 
+;; eshell
+(setq-hook! 'eshell-mode-hook company-idle-delay nil)
+(set-eshell-alias! "fo" "find-file-other-window $1")
+;; set by doom-emacs: f=find-file, q=exit, d=dired and more
+
 ;; python
 ;;
 ;; taken from spacemacs (lang/python/funcs)

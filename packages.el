@@ -8,3 +8,4 @@
 ;;
 ;;
 (package! deadgrep)
+(package! request)
