@@ -64,3 +64,15 @@
      )))
 
 (map! :ne "SPC s v" #'hb9/which-env)
+
+(use-package! python-pytest
+  :commands python-pytest-dispatch
+  :init
+  (map! :after python
+        :localleader
+        :map python-mode-map
+        "t" #'python-pytest-dispatch))
+
+(use-package! flycheck
+  :config
+  (setq-default flycheck-disabled-checkers '(python-pylint)))
