@@ -15,7 +15,7 @@
   :mode ("/Pipfile\\'" . conf-mode)
   :init
   (setq ;; python-environment-directory doom-cache-dir
-        python-indent-guess-indent-offset-verbose nil)
+   python-indent-guess-indent-offset-verbose nil)
 
   :config
   (set-repl-handler! 'python-mode #'+python/open-repl
@@ -50,18 +50,17 @@
 (defun hb9/which-env ()
   "Print location of python exe."
   (interactive)
-    (shell-command "which python"))
+  (shell-command "which python"))
 
 (map!
  (:after python
-   (:map python-mode-map
-     :localleader
-     ;; :prefix "d"
-     "b" #'hb9/python-toggle-breakpoint
-     "t" #'python-pytest-popup
-     "d" #'flymake-show-buffer-diagnostics
-     "v" #'hb9/which-env
-     )))
+  (:map python-mode-map
+   :localleader
+   "b" #'hb9/python-toggle-breakpoint
+   "t" #'python-pytest-popup
+   "d" #'flymake-show-buffer-diagnostics
+   "v" #'hb9/which-env
+   )))
 
 (map! :ne "SPC s v" #'hb9/which-env)
 
@@ -76,3 +75,13 @@
 (use-package! flycheck
   :config
   (setq-default flycheck-disabled-checkers '(python-pylint)))
+
+(use-package! py-isort
+  :defer t
+  :init
+  (map! :after python
+        :map python-mode-map
+        :localleader
+        (:prefix ("i" . "imports")
+         :desc "Sort imports"      "s" #'py-isort-buffer
+         :desc "Sort region"       "r" #'py-isort-region)))

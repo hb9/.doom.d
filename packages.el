@@ -11,3 +11,4 @@
 (package! request)
 (package! poetry)
 (package! eglot)
+(package! py-isort)
