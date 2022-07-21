@@ -9,8 +9,16 @@
 ;; deadgrep
 (map! :ne "SPC s g" #'deadgrep)
 
-(after! deadgrep
-  (set-popup-rule! "^\\*deadgrep" :size 0.5 :select t))
+;; (after! deadgrep
+;;   )
+
+(use-package! deadgrep
+  :config
+(set-popup-rule! "^\\*deadgrep" :size 0.5 :select t)
+  :init
+  (map! :after deadgrep
+        :map deadgrep-mode-map
+        "n" #'deadgrep--show))
 
 ;; eshell
 (setq-hook! 'eshell-mode-hook company-idle-delay nil)
@@ -81,11 +89,6 @@
 
 (map! :ne "SPC s n" #'hb9/search-notes)
 
-(setq custom-file (expand-file-name "hb9-python.el" doom-private-dir))
-  (when (file-exists-p custom-file)
-    (load custom-file))
-
-
 (defun hb9/eshell-default-prompt-fn ()
   "Generate the prompt string for eshell. Use for `eshell-prompt-function'."
   (require 'shrink-path)
@@ -103,9 +106,24 @@
           " ")))
 
 (defun hb9/init-eshell ()
-(setq eshell-prompt-function 'hb9/eshell-default-prompt-fn)
-  )
-
+  (setq eshell-prompt-function 'hb9/eshell-default-prompt-fn))
 
 (use-package! eshell
-:config (add-hook 'eshell-mode-hook 'hb9/init-eshell))
+  :config (add-hook 'eshell-mode-hook 'hb9/init-eshell))
+
+(use-package! denote
+  :config
+  (setq denote-directory (expand-file-name "~/projects/org/notes"))
+  (map! :ne "SPC d n" #'denote
+        :ne "SPC d l" #'denote-link
+        :ne "SPC d L" #'denote-link-show-backlinks-buffer))
+
+(use-package! denote-dired
+  :config
+  (add-hook 'dired-mode-hook #'denote-dired-mode)
+  (map! :ne "SPC d r" #'denote-dired-rename-file
+        :ne "SPC d R" #'denote-dired-rename-file-and-add-front-matter))
+
+(setq custom-file (expand-file-name "hb9-python.el" doom-private-dir))
+  (when (file-exists-p custom-file)
+    (load custom-file))
