@@ -9,3 +9,5 @@
 ;;
 (package! deadgrep)
 (package! request)
+(package! poetry)
+(package! eglot)

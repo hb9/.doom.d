@@ -17,32 +17,6 @@
 (set-eshell-alias! "fo" "find-file-other-window $1")
 ;; set by doom-emacs: f=find-file, q=exit, d=dired and more
 
-;; python
-;;
-;; taken from spacemacs (lang/python/funcs)
-(defun hb9/python-toggle-breakpoint ()
-  "Add a break point, highlight it."
-  (interactive)
-  (let ((trace "import pdb; pdb.set_trace()")
-        (line (thing-at-point 'line)))
-    (if (and line (string-match trace line))
-        (kill-whole-line)
-      (progn
-        (back-to-indentation)
-        (insert trace)
-        (insert "\n")
-        (python-indent-line)))))
-
-
-(map!
- (:after python
-   (:map python-mode-map
-     :localleader
-     :prefix "d"
-     "b" #'hb9/python-toggle-breakpoint
-     "t" #'python-pytest-popup
-     )))
-
 
 ;; org
 (require 'org)
@@ -94,9 +68,36 @@
          :kill-buffer t)   ; properties
         ))
 
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '(
+   ;; ...
+   (scheme . t)))
+
 (defun hb9/search-notes ()
   "Search org files."
   (interactive)
   (+ivy/project-search nil nil "~/projects/org"))
 
 (map! :ne "SPC s n" #'hb9/search-notes)
+
+(setq custom-file (expand-file-name "hb9-python.el" doom-private-dir))
+  (when (file-exists-p custom-file)
+    (load custom-file))
+
+
+(defun +eshell-default-prompt-fn ()
+  "Generate the prompt string for eshell. Use for `eshell-prompt-function'."
+  (require 'shrink-path)
+(cl-destructuring-bind (wstatus . woutput)
+      (doom-call-process "which" "python")
+  (concat (if (bobp) "" "\n") "[" (shrink-path-file woutput) "] "
+          (let ((pwd (eshell/pwd)))
+            (propertize (if (equal pwd "~")
+                            pwd
+                          (abbreviate-file-name (shrink-path-file pwd)))
+                        'face '+eshell-prompt-pwd))
+          (propertize (+eshell--current-git-branch)
+                      'face '+eshell-prompt-git-branch)
+          (propertize " λ" 'face (if (zerop eshell-last-command-status) 'success 'error))
+          " ")))
