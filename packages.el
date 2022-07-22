@@ -11,5 +11,6 @@
 (package! request)
 (package! poetry)
 (package! eglot)
+(package! python-pytest)
 (package! py-isort)
 (package! denote)
